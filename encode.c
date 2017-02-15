@@ -40,15 +40,15 @@ static uint64_t scrambler (uint64_t state, FILE *f, int sync_header, uint64_t pa
 		state = (state << 1) ^ scramble_bit;
 	}
 
-	// char* arr = (char *) (& payload);
-	// printf("0x");
-	// for (i = 0;i<8;i++){
-	// 	printf("%x.",arr[i]);
-	// }
-	// printf("\n");
+	char* arr = (char *) (& payload);
+	printf("0x");
+	for (i = 0;i<8;i++){
+		printf("%x.",arr[i]);
+	}
+	printf("\n");
 	
 	/* print the scrambled block to *f */
-	print_64b66b_block(f, sync_header, scrambled);
+	// print_64b66b_block(f, sync_header, scrambled);
 	return state;
 }
 
@@ -71,6 +71,7 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 	/* assume no idle characters in the begining */
 	/* for each packets */
 	for (i = 0 ; i < cnt ; i ++ ) {
+		printf("\n\npacket %d.\n\n",i);
 		/* data is pointing to the first byte of the packet */
 		data = packets[i].eth_frame;
 		/* len is the length of the packet */
