@@ -77,42 +77,21 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 		len = packets[i].len;
 		current_byte = 0;
 
-
 		/* /E/ */
 		while (begining_idles >= 8) {
 			state = scrambler(state, f, 0x1, e_frame);
 			begining_idles -= 8;
 		}
+		/* /S/ */
+		e_frame = 0x33;
 
-		if (begining_idles > 4){
-			state = scrambler(state, f, 0x1, e_frame);
-			begining_idles = MAX(0,begining_idles-8);
-		}
+		byteArr = (char *) (&e_frame);
+		
+		byteArr[5] = data[current_byte++];
+		byteArr[6] = data[current_byte++];
+		byteArr[7] = data[current_byte++];
 
-		if (begining_idles > 0){
-			/* /S/ */
-			e_frame = 0x33;
-
-			byteArr = (char *) (&e_frame);
-			
-			byteArr[5] = data[current_byte++];
-			byteArr[6] = data[current_byte++];
-			byteArr[7] = data[current_byte++];
-
-			state = scrambler(state, f, 0x1,e_frame);
-		}
-		else {
-			e_frame = 0x78;
-
-			byteArr = (char *) (&e_frame);
-
-			for (j=1;j<8;j++){
-				byteArr[j] = data[current_byte++];
-			}
-
-			state = scrambler(state,f,0x1,e_frame);
-		}
-
+		state = scrambler(state, f, 0x1,e_frame);
 
 		/* Data blocks */
 		
@@ -162,7 +141,7 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 		}
 
 		state = scrambler(state, f, 0x1, e_frame);
-		begining_idles = idle - (7-leftover);
+		begining_idles = idle;
 
 	}
 
