@@ -76,7 +76,7 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 		/* /S/ */
 		byteArr = (char *) (&e_frame);
 		for (i = 0;i < 8; i++){
-			printf("byte %d is %x",i,byteArr[i]);
+			printf("byte %d is %x\n",i,byteArr[i]);
 		}
 
 
