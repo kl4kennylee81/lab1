@@ -41,8 +41,9 @@ static uint64_t scrambler (uint64_t state, FILE *f, int sync_header, uint64_t pa
 	}
 
 	char* arr = (char *) (& payload);
+	printf("0x");
 	for (i = 0;i<8;i++){
-		printf("%x",arr[i]);
+		printf("%x.",arr[i]);
 	}
 	printf("\n");
 	
