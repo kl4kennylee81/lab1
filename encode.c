@@ -125,42 +125,37 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 			state = scrambler(state,f,0x2,e_frame);
 		}
 
+		int leftover = len - current_byte;
+
 		/* /T/ */
-		if (len - current_byte == 0) {
-			e_frame = 0x87;
-		}
-
-		else if (len - current_byte == 1) {
-			e_frame = 0x99;
-		}
-
-		else if (len - current_byte == 2){
-			e_frame = 0xaa;
-		}
-
-		else if (len - current_byte == 3){
-			e_frame = 0xb4;
-		}
-
-		else if (len - current_byte == 4){
-			e_frame = 0xcc;
-		}
-
-		else if (len - current_byte == 5){
-			e_frame = 0xd2;
-		}
-
-		else if (len - current_byte == 6){
-			e_frame = 0xe1;
-		}
-
-		else if (len - current_byte == 7){
-			e_frame = 0xff;
+		switch(leftover) {
+			case 0:
+				e_frame = 0x87;
+				break;
+			case 1:
+				e_frame = 0x99;
+				break;
+			case 2:
+				e_frame = 0xaa;
+				break;
+			case 3:
+				e_frame = 0xb4;
+				break;
+			case 4:
+				e_frame = 0xcc;
+				break;
+			case 5:
+				e_frame = 0xd2;
+				break;
+			case 6:
+				e_frame = 0xe1;
+				break;
+			case 7:
+				e_frame = 0xff;
+				break;
 		}
 
 		byteArr = (char *) (&e_frame);
-		int leftover = len - current_byte;
-
 		printf("leftover:%d\n",leftover);
 
 		printf("e_frame %x\n",e_frame);
@@ -168,6 +163,12 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 		for (j = 1;j<=len-current_byte;j++){
 			byteArr[j] = data[current_byte++];
 		}
+
+		printf("ready for hex:");
+		for (j = 0;j<8;j++){
+			printf("%x.",byteArr[j]);
+		}
+		printf("\n");
 		
 		state = scrambler(state, f, 0x1, e_frame);
 		begining_idles = idle - (7-leftover);
