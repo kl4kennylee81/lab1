@@ -72,7 +72,7 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 			begining_idles -= 8;
 		}
 
-		e_frame = 0x33
+		e_frame = 0x33;
 		/* /S/ */
 		byteArr = (char *) (&e_frame);
 		for (i = 0;i < 8; i++){
