@@ -167,9 +167,9 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 		printf("\n");
 		
 
-		for (j = 1;j<=len-current_byte;j++){
+		for (j = 0;j<=len-current_byte+1;j++){
 			printf("%x\n",data[current_byte]);
-			byteArr[j] = data[current_byte++];
+			byteArr[j+1] = data[current_byte++];
 		}
 
 		state = scrambler(state, f, 0x1, e_frame);
