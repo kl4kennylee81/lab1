@@ -163,10 +163,10 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 
 		printf("leftover:%d\n",leftover);
 
-		printf("e_fram %x\n",e_frame);
+		printf("e_frame %x\n",e_frame);
 
 		for (j = 1;j<=len-current_byte;j++){
-			byteArr[i] = data[current_byte++];
+			byteArr[j] = data[current_byte++];
 		}
 		
 		state = scrambler(state, f, 0x1, e_frame);
