@@ -40,15 +40,15 @@ static uint64_t scrambler (uint64_t state, FILE *f, int sync_header, uint64_t pa
 		state = (state << 1) ^ scramble_bit;
 	}
 
-	char* arr = (char *) (& payload);
-	printf("0x");
-	for (i = 0;i<8;i++){
-		printf("%x.",arr[i]);
-	}
-	printf("\n");
+	// char* arr = (char *) (& payload);
+	// printf("0x");
+	// for (i = 0;i<8;i++){
+	// 	printf("%x.",arr[i]);
+	// }
+	// printf("\n");
 	
 	/* print the scrambled block to *f */
-	// print_64b66b_block(f, sync_header, scrambled);
+	print_64b66b_block(f, sync_header, scrambled);
 	return state;
 }
 
@@ -156,19 +156,8 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 				e_frame = 0xff;
 				break;
 		}
-
-		byteArr = (char *) (&e_frame);
-		printf("leftover:%d\n",leftover);
 		
-		printf("ready for hex:");
-		for (j = 0;j<8;j++){
-			printf("%x.",byteArr[j]);
-		}
-		printf("\n");
-		
-
 		for (j = 0;j<leftover;j++){
-			printf("%x\n",data[current_byte]);
 			byteArr[j+1] = data[current_byte++];
 		}
 
