@@ -71,7 +71,13 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 			begining_idles -= 8;
 		}
 
+		e_frame = 0x33
 		/* /S/ */
+		char* byteArr = (char *) &e_frame;
+		for (int i =0;i<8;i++){
+			printf("byte %d is %x",i,byteArr[i]);
+		}
+
 
 
 
