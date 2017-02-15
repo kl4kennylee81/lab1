@@ -40,15 +40,15 @@ static uint64_t scrambler (uint64_t state, FILE *f, int sync_header, uint64_t pa
 		state = (state << 1) ^ scramble_bit;
 	}
 
-	// char* arr = (char *) (& payload);
-	// printf("0x");
-	// for (i = 0;i<8;i++){
-	// 	printf("%x.",arr[i]);
-	// }
-	// printf("\n");
+	char* arr = (char *) (& payload);
+	printf("0x");
+	for (i = 0;i<8;i++){
+		printf("%x.",arr[i]);
+	}
+	printf("\n");
 	
 	/* print the scrambled block to *f */
-	print_64b66b_block(f, sync_header, scrambled);
+	// print_64b66b_block(f, sync_header, scrambled);
 	return state;
 }
 
