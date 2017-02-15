@@ -56,7 +56,8 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 	uint64_t e_frame = 0x1e;
 	unsigned char *data;
 	static const unsigned char terminal[8] = {0x87, 0x99, 0xaa, 0xb4, 0xcc, 0xd2, 0xe1, 0xff};
-	
+	char* byteArr;
+
 	/* assume no idle characters in the beginning */
 	/* for each packets */
 	for ( i = 0 ; i < cnt ; i ++ ) {
@@ -73,7 +74,7 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 
 		e_frame = 0x33
 		/* /S/ */
-		char* byteArr = (char*) &e_frame;
+		byteArr = (char *) (&e_frame);
 		for (i = 0;i < 8; i++){
 			printf("byte %d is %x",i,byteArr[i]);
 		}
