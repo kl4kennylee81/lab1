@@ -83,7 +83,7 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 		byteArr = (char *) (&e_frame);
 		
 		for (i=0;i<MIN(len,3);i++){
-			byteArr[i + 5] = data[current_byte++]
+			byteArr[i + 5] = data[current_byte++];
 		}
 
 		state = scrambler(state, f, 0x1,e_frame);
@@ -94,7 +94,7 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 		while (len - current_byte >= 8){
 			e_frame = 0x0;
 			for (i = 0;i < 8;i++){
-				byteArr[i] = data[current_byte++]
+				byteArr[i] = data[current_byte++];
 			}
 			state = scrambler(state,f,0x2,e_frame);
 		}
