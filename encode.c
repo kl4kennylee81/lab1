@@ -6,6 +6,9 @@
 
 #include "util.h"
 
+#define MIN(a,b) (((a)<(b))?(a):(b))
+#define MAX(a,b) (((a)>(b))?(a):(b))
+
 static void usage(char *name)
 {
 	fprintf(stderr, "usage: %s [-g interpacket_gap] "
@@ -51,7 +54,7 @@ static uint64_t scrambler (uint64_t state, FILE *f, int sync_header, uint64_t pa
  */
 static int encode(struct packet *packets, int cnt, uint64_t state, const int idle, FILE *f)
 {
-	int i, begining_idles=idle, len;
+	int i, begining_idles=idle, len, current_byte;
 	uint64_t tmp, block_type;
 	uint64_t e_frame = 0x1e;
 	unsigned char *data;
@@ -65,6 +68,8 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 		data = packets[i].eth_frame;
 		/* len is the length of the packet */
 		len = packets[i].len;
+		current_byte = 0;
+
 
 		/* /E/ */
 		while (begining_idles >= 8) {
@@ -72,23 +77,66 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 			begining_idles -= 8;
 		}
 
-		e_frame = 0x33;
 		/* /S/ */
+		e_frame = 0x33;
+
 		byteArr = (char *) (&e_frame);
-		for (i = 0;i < 8; i++){
-			printf("byte %d is %x\n",i,byteArr[i]);
+		
+		for (i=0;i<MIN(len,3);i++){
+			byteArr[i + 5] = data[current_byte++]
 		}
 
-
+		state = scrambler(state, f, 0x1,e_frame);
 
 
 		/* Data blocks */
 		
-
+		while (len - current_byte >= 8){
+			e_frame = 0x0;
+			for (i = 0;i < 8;i++){
+				byteArr[i] = data[current_byte++]
+			}
+			state = scrambler(state,f,0x2,e_frame);
+		}
 
 		/* /T/ */
+		if (len - current_byte == 0) {
+			e_frame = 0x87;
+		}
 
+		else if (len - current_byte == 1) {
+			e_frame = 0x99;
+		}
 
+		else if (len - current_byte == 2){
+			e_frame = 0xaa;
+		}
+
+		else if (len - current_byte == 3){
+			e_frame = 0xb4;
+		}
+
+		else if (len - current_byte == 4){
+			e_frame = 0xcc;
+		}
+
+		else if (len - current_byte == 5){
+			e_frame = 0xd2;
+		}
+
+		else if (len - current_byte == 6){
+			e_frame = 0xe1;
+		}
+
+		else if (len - current_byte == 7){
+			e_frame = 0xff;
+		}
+
+		for (i = 0;i<len-current_byte;i++){
+			byteArr[i] = data[current_byte++];
+		}
+		
+		state = scrambler(state, f, 0x1, e_frame);
 		begining_idles = idle;      // FIXME
 
 	}
