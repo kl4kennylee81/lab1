@@ -82,7 +82,7 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 			begining_idles = MAX(0,begining_idles-8);
 		}
 
-		if (beginning_idles > 0){
+		if (begining_idles > 0){
 			/* /S/ */
 			e_frame = 0x33;
 
@@ -152,7 +152,7 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 		}
 
 		byteArr = (char *) (&e_frame);
-		int leftover = len - current-byte;
+		int leftover = len - current_byte;
 
 		for (j = 0;j<len-current_byte;j++){
 			byteArr[i] = data[current_byte++];
