@@ -8,7 +8,7 @@ encode: encode.c util.c util.h
 	$(CC) $(CFLAGS) -o $@ $^
 
 fun: encode 
-	./encode -i sonic_example -o tmp
+	./encode -i packets -o tmp
 	./decode -i tmp 
 
 clean:
