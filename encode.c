@@ -26,15 +26,15 @@ static uint64_t scrambler (uint64_t state, FILE *f, int sync_header, uint64_t pa
 
 
 	for (i =0;i<64;i++){
-		uint64_t fifty_eight = ((state >> 58) & 0x01);
-		uint64_t thirty_nine = ((state >> 39) & 0x01);
+		uint64_t fifty_eight = ((state >> 57) & 0x01);
+		uint64_t thirty_nine = ((state >> 38) & 0x01);
 		uint64_t bit_n = payload >> i & 0x01;
 
 		uint64_t scramble_bit = fifty_eight ^ thirty_nine ^ bit_n;
 
 		scrambled = (scrambled | (scramble_bit << i));
 
-		state = (state >> 1) ^ scramble_bit;
+		state = (state << 1) ^ scramble_bit;
 	}
 	
 	/* print the scrambled block to *f */
