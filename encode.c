@@ -70,7 +70,7 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 
 	/* assume no idle characters in the begining */
 	/* for each packets */
-	for (i = 0 ; i < 1 ; i ++ ) {
+	for (i = 0 ; i < cnt ; i ++ ) {
 		/* data is pointing to the first byte of the packet */
 		data = packets[i].eth_frame;
 		/* len is the length of the packet */
