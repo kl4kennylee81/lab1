@@ -139,7 +139,7 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 		}
 		
 		state = scrambler(state, f, 0x1, e_frame);
-		begining_idles = idle -       // FIXME
+		begining_idles = idle;      // FIXME
 
 	}
 
