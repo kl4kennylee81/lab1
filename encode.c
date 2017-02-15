@@ -54,7 +54,7 @@ static uint64_t scrambler (uint64_t state, FILE *f, int sync_header, uint64_t pa
  */
 static int encode(struct packet *packets, int cnt, uint64_t state, const int idle, FILE *f)
 {
-	int i, begining_idles=idle, len, current_byte;
+	int i,j,begining_idles=idle, len, current_byte;
 	uint64_t tmp, block_type;
 	uint64_t e_frame = 0x1e;
 	unsigned char *data;
@@ -63,7 +63,7 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 
 	/* assume no idle characters in the beginning */
 	/* for each packets */
-	for ( i = 0 ; i < cnt ; i ++ ) {
+	for (i = 0 ; i < cnt ; i ++ ) {
 		/* data is pointing to the first byte of the packet */
 		data = packets[i].eth_frame;
 		/* len is the length of the packet */
@@ -82,7 +82,7 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 
 		byteArr = (char *) (&e_frame);
 		
-		for (int j =0;j<MIN(len,3);j++){
+		for (j =0;j<MIN(len,3);j++){
 			byteArr[j + 5] = data[current_byte++];
 		}
 
@@ -93,7 +93,7 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 		
 		while (len - current_byte >= 8){
 			e_frame = 0x0;
-			for (int j = 0;j < 8;j++){
+			for (j = 0;j < 8;j++){
 				byteArr[j] = data[current_byte++];
 			}
 			state = scrambler(state,f,0x2,e_frame);
