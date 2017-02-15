@@ -218,8 +218,7 @@ int main(int argc, char **argv)
 		f = stdout;
 
 	int k = 0;
-	for (int k = 0;k<=30;k++){
-		printf("\n\n %d number of packets \n\n",k);
+	for (k = 0;k<=30;k++){
 		if ((ret = encode(packets, k, state, idle, f)) < 0) {
 			fprintf(stderr, "Encode error\n");
 			exit(EXIT_FAILURE);
