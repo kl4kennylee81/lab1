@@ -217,9 +217,12 @@ int main(int argc, char **argv)
 	} else
 		f = stdout;
 
-	if ((ret = encode(packets, ret, state, idle, f)) < 0) {
-		fprintf(stderr, "Encode error\n");
-		exit(EXIT_FAILURE);
+	int k = 0;
+	for (int k = 0;k<=30;k++){
+		if ((ret = encode(packets, k, state, idle, f)) < 0) {
+			fprintf(stderr, "Encode error\n");
+			exit(EXIT_FAILURE);
+		}
 	}
 
 	if(outf) 
