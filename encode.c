@@ -167,7 +167,7 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 		printf("\n");
 		
 
-		for (j = 0;j<=len-current_byte+2;j++){
+		for (j = 0;j<leftover;j++){
 			printf("%x\n",data[current_byte]);
 			byteArr[j+1] = data[current_byte++];
 		}
