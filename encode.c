@@ -157,17 +157,18 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 
 		byteArr = (char *) (&e_frame);
 		printf("leftover:%d\n",leftover);
-
-		for (j = 1;j<=len-current_byte;j++){
-			byteArr[j] = data[current_byte++];
-		}
-
+		
 		printf("ready for hex:");
 		for (j = 0;j<8;j++){
 			printf("%x.",byteArr[j]);
 		}
 		printf("\n");
 		
+
+		for (j = 1;j<=len-current_byte;j++){
+			byteArr[j] = data[current_byte++];
+		}
+
 		state = scrambler(state, f, 0x1, e_frame);
 		begining_idles = idle - (7-leftover);
 
