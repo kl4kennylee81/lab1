@@ -161,6 +161,8 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 		byteArr = (char *) (&e_frame);
 		int leftover = len - current_byte;
 
+		printf("leftover:%d\n",leftover);
+
 		for (j = 1;j<=len-current_byte;j++){
 			byteArr[i] = data[current_byte++];
 		}
