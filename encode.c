@@ -168,6 +168,7 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 		
 
 		for (j = 1;j<=len-current_byte;j++){
+			printf("%x\n",data[current_byte]);
 			byteArr[j] = data[current_byte++];
 		}
 
