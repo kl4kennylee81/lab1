@@ -61,7 +61,7 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 	static const unsigned char terminal[8] = {0x87, 0x99, 0xaa, 0xb4, 0xcc, 0xd2, 0xe1, 0xff};
 	char* byteArr;
 
-	/* assume no idle characters in the beginning */
+	/* assume no idle characters in the begining */
 	/* for each packets */
 	for (i = 0 ; i < cnt ; i ++ ) {
 		/* data is pointing to the first byte of the packet */
@@ -77,16 +77,34 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 			begining_idles -= 8;
 		}
 
-		/* /S/ */
-		e_frame = 0x33;
+		if (begining_idles > 4){
+			state = scrambler(state, f, 0x1, e_frame);
+			begining_idles = MAX(0,begining_idles-8);
+		}
 
-		byteArr = (char *) (&e_frame);
-		
-		byteArr[5] = data[current_byte++];
-		byteArr[6] = data[current_byte++];
-		byteArr[7] = data[current_byte++];
+		if (beginning_idles > 0){
+			/* /S/ */
+			e_frame = 0x33;
 
-		state = scrambler(state, f, 0x1,e_frame);
+			byteArr = (char *) (&e_frame);
+			
+			byteArr[5] = data[current_byte++];
+			byteArr[6] = data[current_byte++];
+			byteArr[7] = data[current_byte++];
+
+			state = scrambler(state, f, 0x1,e_frame);
+		}
+		else {
+			e_frame = 0x78;
+
+			byteArr = (char *) (&e_frame);
+
+			for (j=1;j<8;j++){
+				byteArr[j] = data[current_byte++];
+			}
+
+			state = scrambler(state,f,0x1,e_frame);
+		}
 
 
 		/* Data blocks */
@@ -134,12 +152,14 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 		}
 
 		byteArr = (char *) (&e_frame);
+		int leftover = len - current-byte;
+
 		for (j = 0;j<len-current_byte;j++){
 			byteArr[i] = data[current_byte++];
 		}
 		
 		state = scrambler(state, f, 0x1, e_frame);
-		begining_idles = idle;      // FIXME
+		begining_idles = idle - (7-leftover);
 
 	}
 
