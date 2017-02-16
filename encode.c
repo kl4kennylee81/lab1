@@ -76,9 +76,11 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 		/* len is the length of the packet */
 		len = packets[i].len;
 		current_byte = 0;
+		e_frame = 0x0;
+		byteArr = NULL;
 
 		/* /E/ */
-		while (begining_idles >= 8) {
+		while (begining_idles >= 4) {
 			e_frame = 0x1e;
 			state = scrambler(state, f, 0x1, e_frame);
 			begining_idles -= 8;
