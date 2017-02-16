@@ -80,21 +80,31 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 		byteArr = NULL;
 
 		/* /E/ */
-		while (begining_idles >= 4) {
+		while (begining_idles > 4) {
 			e_frame = 0x1e;
 			state = scrambler(state, f, 0x1, e_frame);
 			begining_idles -= 8;
 		}
-		/* /S/ */
-		e_frame = 0x33;
 
-		byteArr = (char *) (&e_frame);
-		
-		byteArr[5] = data[current_byte++];
-		byteArr[6] = data[current_byte++];
-		byteArr[7] = data[current_byte++];
+		if (begining_idles == 0){
+				e_frame = 0x78;
+				byteArr = (char *) (&e_frame);
+				for (j = 1;j < 8;j++){
+					byteArr[j] = data[current_byte++];
+				}
+				state = scrambler(state,f,0x1,e_frame);
+		} else {
+				/* /S/ */
+				e_frame = 0x33;
 
-		state = scrambler(state, f, 0x1,e_frame);
+				byteArr = (char *) (&e_frame);
+				
+				byteArr[5] = data[current_byte++];
+				byteArr[6] = data[current_byte++];
+				byteArr[7] = data[current_byte++];
+
+				state = scrambler(state, f, 0x1,e_frame);
+		}
 
 		/* Data blocks */
 		
