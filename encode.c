@@ -40,15 +40,15 @@ static uint64_t scrambler (uint64_t state, FILE *f, int sync_header, uint64_t pa
 		state = (state << 1) ^ scramble_bit;
 	}
 
-	// char* arr = (char *) (& payload);
-	// printf("0x");
-	// for (i = 0;i<8;i++){
-	// 	printf("%x.",arr[i]);
-	// }
-	// printf("\n");
+	char* arr = (char *) (& payload);
+	printf("0x");
+	for (i = 0;i<8;i++){
+		printf("%x.",arr[i]);
+	}
+	printf("\n");
 	
 	/* print the scrambled block to *f */
-	print_64b66b_block(f, sync_header, scrambled);
+	//print_64b66b_block(f, sync_header, scrambled);
 	return state;
 }
 
@@ -70,7 +70,7 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 
 	/* assume no idle characters in the begining */
 	/* for each packets */
-	for (i = 0 ; i < cnt ; i ++ ) {
+	for (i = 0 ; i < 4 ; i ++ ) {
 		/* data is pointing to the first byte of the packet */
 		data = packets[i].eth_frame;
 		/* len is the length of the packet */
@@ -217,12 +217,16 @@ int main(int argc, char **argv)
 	} else
 		f = stdout;
 
-	int k = 0;
-	for (k = 0;k<=30;k++){
-		if ((ret = encode(packets, k, state, idle, f)) < 0) {
-			fprintf(stderr, "Encode error\n");
-			exit(EXIT_FAILURE);
-		}
+	// int k = 0;
+	// for (k = 0;k<=30;k++){
+	// 	if ((ret = encode(packets, k, state, idle, f)) < 0) {
+	// 		fprintf(stderr, "Encode error\n");
+	// 		exit(EXIT_FAILURE);
+	// 	}
+	// }
+	if ((ret = encode(packets, ret, state, idle, f)) < 0) {
+		fprintf(stderr, "Encode error\n");
+		exit(EXIT_FAILURE);
 	}
 
 	if(outf) 
