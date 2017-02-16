@@ -110,7 +110,7 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 			for (j = 0;j < 8;j++){
 				byteArr[j] = data[current_byte++];
 			}
-			state = scrambler(state,f,0x10,e_frame);
+			state = scrambler(state,f,0x2,e_frame);
 		}
 
 		int leftover = len - current_byte;
