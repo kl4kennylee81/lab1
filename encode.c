@@ -91,6 +91,8 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 				}
 				state = scrambler(state,f,0x1,e_frame);
 		} else {
+
+				assert(begining_idles > 0);
 				/* /S/ */
 				e_frame = 0x33;
 
