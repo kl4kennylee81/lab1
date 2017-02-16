@@ -83,7 +83,7 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 				begining_idles -= 8;
 			}
 
-		if (begining_idles == 0){
+		if (begining_idles <= 0){
 				e_frame = 0x78;
 				byteArr = (char *) (&e_frame);
 				for (j = 1;j < 8;j++){
@@ -142,7 +142,7 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 				e_frame = 0xff;
 				break;
 			default:
-				e_frame = 0x0;
+				printf("should not be here");
 				break;
 		}
 
