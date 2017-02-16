@@ -104,7 +104,7 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 		}
 
 		/* Data blocks */
-		while (len - current_byte >= 8){
+		while ((len - current_byte) >= 8){
 			e_frame = 0x0;
 			byteArr = (char *) (&e_frame);
 			for (j = 0;j < 8;j++){
@@ -153,7 +153,7 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 		}
 
 		state = scrambler(state, f, 0x1, e_frame);
-		begining_idles = idle - (7-leftover);
+		begining_idles = idle - (8-leftover);
 
 	}
 
