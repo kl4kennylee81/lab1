@@ -22,7 +22,6 @@ static void usage(char *name)
 static uint64_t scrambler (uint64_t state, FILE *f, int sync_header, uint64_t payload)
 {
 	int i;
-	uint64_t in_bit, out_bit;
 	uint64_t scrambled = 0x0;
 
 	/* This is where you will implement the scrambler */
@@ -62,10 +61,8 @@ static uint64_t scrambler (uint64_t state, FILE *f, int sync_header, uint64_t pa
 static int encode(struct packet *packets, int cnt, uint64_t state, const int idle, FILE *f)
 {
 	int i,j,begining_idles=idle, len, current_byte;
-	uint64_t tmp, block_type;
 	uint64_t e_frame = 0x1e;
 	unsigned char *data;
-	static const unsigned char terminal[8] = {0x87, 0x99, 0xaa, 0xb4, 0xcc, 0xd2, 0xe1, 0xff};
 	char* byteArr;
 
 	/* assume no idle characters in the begining */
@@ -107,7 +104,6 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 		}
 
 		/* Data blocks */
-		
 		while (len - current_byte >= 8){
 			e_frame = 0x0;
 			byteArr = (char *) (&e_frame);
