@@ -76,14 +76,12 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 		e_frame = 0x0;
 		byteArr = NULL;
 
-		if (i > 0){
 			/* /E/ */
 			while (begining_idles > 4) {
 				e_frame = 0x1e;
 				state = scrambler(state, f, 0x1, e_frame);
 				begining_idles -= 8;
 			}
-		}
 
 		if (begining_idles == 0){
 				e_frame = 0x78;
@@ -112,7 +110,7 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 			for (j = 0;j < 8;j++){
 				byteArr[j] = data[current_byte++];
 			}
-			state = scrambler(state,f,0x2,e_frame);
+			state = scrambler(state,f,0x10,e_frame);
 		}
 
 		int leftover = len - current_byte;
