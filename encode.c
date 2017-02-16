@@ -108,8 +108,6 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 
 		int leftover = len - current_byte;
 
-		e_frame = 0x0;
-
 		/* /T/ */
 		switch(leftover) {
 			case 0:
@@ -136,7 +134,12 @@ static int encode(struct packet *packets, int cnt, uint64_t state, const int idl
 			case 7:
 				e_frame = 0xff;
 				break;
+			default:
+				e_frame = 0x0;
+				break;
 		}
+
+		byteArr = (char *) (&e_frame);
 		
 		for (j = 0;j<leftover;j++){
 			byteArr[j+1] = data[current_byte++];
