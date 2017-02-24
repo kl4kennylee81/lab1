@@ -40,7 +40,7 @@ static uint64_t descrambler (uint64_t *pstate, uint64_t payload)
 	for (i = 0;i<64;i++){
 		in_bit = (payload >> i) & 0x1;
 		state = (state << 1) | in_bit;
-		out_bit = (in_bit ^ (state >> 38) ^ (state >> 57)) & 0x1;
+		out_bit = (in_bit ^ (state >> 39) ^ (state >> 58)) & 0x1;
 		descrambled |= (out_bit << i);
 	}
 
