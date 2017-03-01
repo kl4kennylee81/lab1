@@ -48,7 +48,7 @@ static uint64_t descrambler (uint64_t *pstate, uint64_t payload)
 	return descrambled;
 }
 
-static void resetPacket(struct *packet packet) {
+static void resetPacket(struct *packe packet) {
 			// initialize packet struct for next packet
 		packet->eth_frame = malloc(2 * DEFAULT_MTU);
 		packet->capacity = 2 * DEFAULT_MTU;
@@ -97,7 +97,7 @@ static int decode(struct block *blocks, int cnt, uint64_t state, FILE *out_f)
 
 				// no change to idles
 				descrambled >>= 8;
-				* (uint64 *) p = descrambled;
+				* (uint64_t *) p = descrambled;
 				p += 7;
 				packet.len += 7;
 				break;
@@ -126,7 +126,7 @@ static int decode(struct block *blocks, int cnt, uint64_t state, FILE *out_f)
 				descrambled <<= 8;
 				// get rid of the blanks and the block type
 				descrambled >>= 16;
-				* (uint64 *) p = descrambled;
+				* (uint64_t *) p = descrambled;
 				p += 6;
 				packet.len += 6;
 				/* when you recovered an Ethernet frame
@@ -145,7 +145,7 @@ static int decode(struct block *blocks, int cnt, uint64_t state, FILE *out_f)
 				descrambled <<= 16;
 				// get rid of the blanks and the block type
 				descrambled >>= 24;
-				* (uint64 *) p = descrambled;
+				* (uint64_t *) p = descrambled;
 				p += 5;
 				packet.len += 5;
 				/* when you recovered an Ethernet frame
@@ -164,7 +164,7 @@ static int decode(struct block *blocks, int cnt, uint64_t state, FILE *out_f)
 				descrambled <<= 24;
 				// get rid of the blanks and the block type
 				descrambled >>= 32;
-				* (uint64 *) p = descrambled;
+				* (uint64_t *) p = descrambled;
 				p += 4;
 				packet.len += 4;
 				/* when you recovered an Ethernet frame
@@ -183,7 +183,7 @@ static int decode(struct block *blocks, int cnt, uint64_t state, FILE *out_f)
 				descrambled <<= 32;
 				// get rid of the blanks and the block type
 				descrambled >>= 40;
-				* (uint64 *) p = descrambled;
+				* (uint64_t *) p = descrambled;
 				p += 3;
 				packet.len += 3;
 				/* when you recovered an Ethernet frame
@@ -202,7 +202,7 @@ static int decode(struct block *blocks, int cnt, uint64_t state, FILE *out_f)
 				descrambled <<= 40;
 				// get rid of the blanks and the block type
 				descrambled >>= 48;
-				* (uint64 *) p = descrambled;
+				* (uint64_t *) p = descrambled;
 				p += 2;
 				packet.len += 2;
 				/* when you recovered an Ethernet frame
@@ -221,7 +221,7 @@ static int decode(struct block *blocks, int cnt, uint64_t state, FILE *out_f)
 				descrambled <<= 48;
 				// get rid of the blanks and the block type
 				descrambled >>= 56;
-				* (uint64 *) p = descrambled;
+				* (uint64_t *) p = descrambled;
 				p += 1;
 				packet.len += 1;
 				/* when you recovered an Ethernet frame
@@ -242,7 +242,7 @@ static int decode(struct block *blocks, int cnt, uint64_t state, FILE *out_f)
 				// descrambled >>= 64;
 
 				descrambled = 0x0;
-				* (uint64 *) p = descrambled;
+				* (uint64_t *) p = descrambled;
 				p += 0;
 				packet.len += 0;
 
