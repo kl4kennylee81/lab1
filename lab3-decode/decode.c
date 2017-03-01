@@ -78,7 +78,9 @@ static int decode(struct block *blocks, int cnt, uint64_t state, FILE *out_f)
 
 		/* data block */
 		if (blocks[i].sync_header != 1)	{
-
+			* (uint64_t *) p = descrambled;
+			p += 8;
+			packet.len +=8;
 		
 		/* control block */
 		} else {
@@ -103,7 +105,7 @@ static int decode(struct block *blocks, int cnt, uint64_t state, FILE *out_f)
 				break;
 			/* /T/ */
 			case 0xff:
-				packet.idles += 1;
+				// packet.idles += 1;
 				descrambled >>= 8;
 				* (uint64_t *) p = descrambled;
 				p += 7;
@@ -117,11 +119,11 @@ static int decode(struct block *blocks, int cnt, uint64_t state, FILE *out_f)
 				resetPacket(&packet);
 					/* let p pointing to the first byte of eth_frame */
 				p = packet.eth_frame;
+				packet.idles += 1;
 				break;
 
-			// E frame
 			case 0xe1:
-				packet.idles += 2;
+				// packet.idles += 2;
 				// get rid of the idle
 				descrambled <<= 8;
 				// get rid of the blanks and the block type
@@ -138,9 +140,10 @@ static int decode(struct block *blocks, int cnt, uint64_t state, FILE *out_f)
 				resetPacket(&packet);
 					/* let p pointing to the first byte of eth_frame */
 				p = packet.eth_frame;
+				packet.idles += 2;
 				break;
 			case 0xd2:
-				packet.idles += 3;
+				// packet.idles += 3;
 				// get rid of the idle
 				descrambled <<= 16;
 				// get rid of the blanks and the block type
@@ -157,9 +160,10 @@ static int decode(struct block *blocks, int cnt, uint64_t state, FILE *out_f)
 				resetPacket(&packet);
 					/* let p pointing to the first byte of eth_frame */
 				p = packet.eth_frame;
+				packet.idles += 3;
 				break;
 			case 0xcc:
-				packet.idles += 4;
+				// packet.idles += 4;
 				// get rid of the idle
 				descrambled <<= 24;
 				// get rid of the blanks and the block type
@@ -176,9 +180,10 @@ static int decode(struct block *blocks, int cnt, uint64_t state, FILE *out_f)
 				resetPacket(&packet);
 					/* let p pointing to the first byte of eth_frame */
 				p = packet.eth_frame;
+				packet.idles += 4;
 				break;
 			case 0xb4:
-				packet.idles += 5;
+				// packet.idles += 5;
 				// get rid of the idle
 				descrambled <<= 32;
 				// get rid of the blanks and the block type
@@ -195,9 +200,10 @@ static int decode(struct block *blocks, int cnt, uint64_t state, FILE *out_f)
 				resetPacket(&packet);
 					/* let p pointing to the first byte of eth_frame */
 				p = packet.eth_frame;
+				packet.idles += 5;
 				break;
 			case 0xaa:
-				packet.idles += 6;
+				// packet.idles += 6;
 				// get rid of the idle
 				descrambled <<= 40;
 				// get rid of the blanks and the block type
@@ -214,9 +220,10 @@ static int decode(struct block *blocks, int cnt, uint64_t state, FILE *out_f)
 				resetPacket(&packet);
 					/* let p pointing to the first byte of eth_frame */
 				p = packet.eth_frame;
+				packet.idles += 6;
 				break;
 			case 0x99:
-				packet.idles += 7;
+				// packet.idles += 7;
 				// get rid of the idle
 				descrambled <<= 48;
 				// get rid of the blanks and the block type
@@ -233,9 +240,10 @@ static int decode(struct block *blocks, int cnt, uint64_t state, FILE *out_f)
 				resetPacket(&packet);
 					/* let p pointing to the first byte of eth_frame */
 				p = packet.eth_frame;
+				packet.idles +=7;
 				break;
 			case 0x87:
-				packet.idles += 8;
+				// packet.idles += 8;
 				// // get rid of the idle
 				// descrambled <<= 56;
 				// // get rid of the blanks and the block type
@@ -255,6 +263,7 @@ static int decode(struct block *blocks, int cnt, uint64_t state, FILE *out_f)
 				resetPacket(&packet);
 					/* let p pointing to the first byte of eth_frame */
 				p = packet.eth_frame;
+				packet.idles +=8;
 				break;
 			/* /E/ */
 			case 0x1e:		
