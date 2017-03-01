@@ -48,7 +48,7 @@ static uint64_t descrambler (uint64_t *pstate, uint64_t payload)
 	return descrambled;
 }
 
-static void resetPacket(struct *packe packet) {
+static void resetPacket(struct *packet packet) {
 			// initialize packet struct for next packet
 		packet->eth_frame = malloc(2 * DEFAULT_MTU);
 		packet->capacity = 2 * DEFAULT_MTU;
