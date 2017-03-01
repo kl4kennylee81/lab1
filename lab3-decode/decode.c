@@ -105,7 +105,7 @@ static int decode(struct block *blocks, int cnt, uint64_t state, FILE *out_f)
 			case 0xff:
 				packet.idles += 1;
 				descrambled >>= 8;
-				* (uint64 *) p = descrambled;
+				* (uint64_t *) p = descrambled;
 				p += 7;
 				packet.len += 7;
 				/* when you recovered an Ethernet frame
